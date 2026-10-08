@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Web Developer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            400: '#f87171', // Red 400
+                            500: '#ef4444', // Red 500
+                            600: '#dc2626', // Red 600
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            /* แดงดำเฟรด - Red and Black Gradient Background */
+            background: linear-gradient(135deg, #0a0000 0%, #3a0505 50%, #000000 100%);
+            background-attachment: fixed;
+            color: #e5e5e5; /* neutral-200 */
+        }
+        
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(239, 68, 68, 0.15); /* red border */
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gradient text utility */
+        .text-gradient {
+            background: linear-gradient(to right, #f87171, #b91c1c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <header class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold tracking-tighter text-white">
+                        Port<span class="text-brand-500">folio.</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8 items-center">
+                        <li><a href="#home" class="text-sm font-medium hover:text-brand-400 transition-colors">หน้าแรก</a></li>
+                        <li><a href="#about" class="text-sm font-medium hover:text-brand-400 transition-colors">เกี่ยวกับฉัน</a></li>
+                        <li><a href="#skills" class="text-sm font-medium hover:text-brand-400 transition-colors">ทักษะ</a></li>
+                        <li><a href="#projects" class="text-sm font-medium hover:text-brand-400 transition-colors">ผลงาน</a></li>
+                        <li>
+                            <a href="#contact" class="px-5 py-2.5 rounded-full bg-brand-500/10 text-brand-400 font-medium text-sm border border-brand-500/30 hover:bg-brand-500 hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                                ติดต่อฉัน
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-neutral-300 hover:text-white focus:outline-none" aria-label="Toggle Menu">
+                        <i class="ph ph-list text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-neutral-950 border-b border-red-900/30 absolute w-full left-0 shadow-2xl">
+            <ul class="px-4 pt-2 pb-6 space-y-2">
+                <li><a href="#home" class="block px-4 py-3 rounded-lg hover:bg-neutral-900 text-base font-medium text-neutral-200">หน้าแรก</a></li>
+                <li><a href="#about" class="block px-4 py-3 rounded-lg hover:bg-neutral-900 text-base font-medium text-neutral-200">เกี่ยวกับฉัน</a></li>
+                <li><a href="#skills" class="block px-4 py-3 rounded-lg hover:bg-neutral-900 text-base font-medium text-neutral-200">ทักษะ</a></li>
+                <li><a href="#projects" class="block px-4 py-3 rounded-lg hover:bg-neutral-900 text-base font-medium text-neutral-200">ผลงาน</a></li>
+                <li><a href="#contact" class="block px-4 py-3 mt-4 text-center rounded-lg bg-brand-600 text-white font-medium hover:bg-brand-500">ติดต่อฉัน</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div class="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-red-600/20 mix-blend-screen filter blur-[120px] opacity-60 animate-blob"></div>
+                <div class="absolute bottom-[10%] left-[5%] w-[600px] h-[600px] rounded-full bg-orange-600/10 mix-blend-screen filter blur-[120px] opacity-40 animate-blob animation-delay-2000"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1 reveal active">
+                        <div class="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/10 text-brand-400 text-sm font-medium mb-6 border border-brand-500/30">
+                            <span class="flex w-2 h-2 rounded-full bg-brand-500 mr-2 animate-pulse"></span>
+                            Available for work
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-4 drop-shadow-lg">
+                            สวัสดีครับ 👋 <br>
+                            ผมชื่อ <span class="text-gradient">อิทธิกร สวนศรี</span> <br>
+                            นักศึกษาสาขา<span class="text-gradient">วิศวกรรมคอมพิวเตอร์</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-neutral-400 mb-8 max-w-lg">
+                           ผมมีความสามารถด้านการเขียนโปรแกรมหุ่นยนต์และดูแลระบบต่างๆทั้งในหน้าบ้านของระบบและหลังบ้านของระบบ 
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#projects" class="px-8 py-3.5 rounded-full bg-brand-600 text-white font-medium hover:bg-brand-500 transition-colors shadow-[0_0_20px_rgba(220,38,38,0.4)] flex items-center gap-2">
+                                ดูผลงานของผม <i class="ph ph-arrow-right"></i>
+                            </a>
+                            <a href="#contact" class="px-8 py-3.5 rounded-full bg-transparent text-white font-medium border border-neutral-600 hover:border-brand-400 hover:bg-brand-500/10 transition-colors">
+                                ช่องทางการติดต่อ
+                            </a>
+                        </div>
+                        
+                        <!-- Social Links -->
+                        <div class="flex items-center gap-5 mt-12 text-neutral-400">
+                            <a href="#" class="hover:text-white hover:scale-110 transition-all p-2"><i class="ph ph-github-logo text-3xl"></i></a>
+                            <a href="#" class="hover:text-brand-400 hover:scale-110 transition-all p-2"><i class="ph ph-linkedin-logo text-3xl"></i></a>
+                            <a href="#" class="hover:text-white hover:scale-110 transition-all p-2"><i class="ph ph-envelope-simple text-3xl"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="order-1 lg:order-2 flex justify-center lg:justify-end reveal active">
+                        <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-[450px] lg:h-[450px]">
+                            <!-- Placeholder for Profile Image -->
+                            <div class="w-full h-full rounded-full border-2 border-brand-500/50 p-2 relative z-10 bg-neutral-950/80 overflow-hidden shadow-[0_0_30px_rgba(220,38,38,0.2)]">
+                                <img src="https://cdn.phototourl.com/member/2026-10-08-79619227-bf3b-49b4-a460-9efaa3aeb511.jpg" alt="Profile" class="w-full h-full object-cover rounded-full opacity-90">
+                            </div>
+                            <!-- Decorative ring -->
+                            <div class="absolute inset-0 rounded-full border border-red-900/50 scale-105 -z-10"></div>
+                            <div class="absolute inset-0 rounded-full border border-red-950/50 scale-110 -z-10"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 bg-black/40 relative border-y border-white/5">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">เกี่ยวกับ<span class="text-brand-500">ฉัน</span></h2>
+                    <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 reveal">
+                        <div class="bg-neutral-900/80 rounded-2xl p-2 shadow-2xl border border-red-900/30 relative">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl blur opacity-20"></div>
+                            <img src="https://cdn.phototourl.com/member/2026-10-08-2b7fda9a-0606-44f7-a27f-aeda37f5a995.jpg">
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-7 reveal">
+                        <h3 class="text-2xl font-semibold text-white mb-6">นักศึกษาสายไอทีที่เริ่มตั้งแต่ช่วงมัธยม</h3>
+                        <p class="text-neutral-400 leading-relaxed mb-6">
+                            สวัสดีครับ ผมชื่อนายอิทธิกร สวนสรี ชื่อเล่น ตั้น ปัจจุบันเรียนอยู่มหาลัยศรีปทุม คณะเทคโนโลยีสารสนเทศ สาขาวิศวกรรมคอมพิวเตอร์ครับ ผมมีความสามารถด้านการเขียนโปรแกรมหุ่นยนต์และดูแลระบบต่างๆทั้งในหน้าบ้านของระบบและหลังบ้านของระบบ เนื่องจากผมได้ไปแข่งขันหุ่นยนต์ของศิลปหัตถกรรมมาสี่ปีและได้รับรางวัลเหรียญทองในสี่ปีนั้นครับ มีความสามารถด้านภาษาที่สองคือภาษาอังกฤษ สามารถฟังพูดอ่านเขียนได้ครับ
+                        </p>
+                        <p class="text-neutral-400 leading-relaxed mb-8">
+                            เป้าหมายของผมคือการได้ร่วมงานกับกลุ่มคนที่มีความสามารถ และอยากทำงานให้กับบริษัทที่มีประสิทธิภาพและมีชื่อเสียง
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                            <div class="bg-neutral-950/60 p-4 rounded-xl border border-red-900/20 text-center hover:border-red-500/40 transition-colors">
+                                <h4 class="text-3xl font-bold text-brand-500 mb-1">3+</h4>
+                                <p class="text-sm text-neutral-400">ปีที่ประสบการณ์</p>
+                            </div>
+                            <div class="bg-neutral-950/60 p-4 rounded-xl border border-red-900/20 text-center hover:border-red-500/40 transition-colors">
+                                <h4 class="text-3xl font-bold text-brand-500 mb-1">4</h4>
+                                <p class="text-sm text-neutral-400">ปีที่ประสบการณ์แข่งขัน</p>
+                            </div>
+                            <div class="bg-neutral-950/60 p-4 rounded-xl border border-red-900/20 text-center col-span-2 md:col-span-1 hover:border-red-500/40 transition-colors">
+                                <h4 class="text-3xl font-bold text-brand-500 mb-1">10+</h4>
+                                <p class="text-sm text-neutral-400">รางวัลเหรียญทองที่ได้</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">ทักษะ<span class="text-brand-500">ความสามารถ</span></h2>
+                    <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                    <p class="text-neutral-400 mt-4 max-w-2xl mx-auto">เทคโนโลยีและเครื่องมือที่ผมใช้ในการพัฒนาซอฟต์แวร์</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Arduino -->
+<div class="bg-neutral-900/80 p-8 rounded-2xl border border-cyan-500/30 hover:border-cyan-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.25)] transition-all group reveal">
+    <div class="w-14 h-14 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+        <i class="ph ph-cpu text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-semibold text-white mb-4">Arduino</h3>
+    <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1.5 bg-cyan-950/40 text-cyan-300 text-sm rounded-lg border border-cyan-500/30">C/C++</span>
+    </div>
+</div>
+
+                    <!-- CiRA CORE -->
+<div class="bg-neutral-900/80 p-8 rounded-2xl border border-amber-500/30 hover:border-amber-500 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)] transition-all group reveal">
+    <div class="w-14 h-14 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+        <i class="ph ph-brain text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-semibold text-white mb-4">CiRA CORE</h3>
+    <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1.5 bg-amber-950/40 text-amber-300 text-sm rounded-lg border border-amber-500/30">Python</span>
+        <span class="px-3 py-1.5 bg-amber-950/40 text-amber-300 text-sm rounded-lg border border-amber-500/30">Deep Learning</span>
+        <span class="px-3 py-1.5 bg-amber-950/40 text-amber-300 text-sm rounded-lg border border-amber-500/30">Computer Vision</span>
+    </div>
+</div>
+
+                    <!-- Blender -->
+<div class="bg-neutral-900/80 p-8 rounded-2xl border border-orange-500/30 hover:border-orange-500 hover:shadow-[0_0_20px_rgba(249,115,22,0.25)] transition-all group reveal">
+    <div class="w-14 h-14 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-400 mb-6 group-hover:scale-110 transition-transform shadow-inner">
+        <i class="ph ph-cube text-3xl"></i>
+    </div>
+    <h3 class="text-xl font-semibold text-white mb-4">Blender</h3>
+    <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1.5 bg-orange-950/40 text-orange-300 text-sm rounded-lg border border-orange-500/30">3D Modeling</span>
+        <span class="px-3 py-1.5 bg-orange-950/40 text-orange-300 text-sm rounded-lg border border-orange-500/30">Rendering</span>
+        <span class="px-3 py-1.5 bg-orange-950/40 text-orange-300 text-sm rounded-lg border border-orange-500/30">Animation</span>
+    </div>
+</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-24 bg-black/40 relative border-y border-white/5">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">ผลงาน<span class="text-brand-500">ของผม</span></h2>
+                    <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                    <p class="text-neutral-400 mt-4 max-w-2xl mx-auto">ตัวอย่างโปรเจกต์ที่ผมได้พัฒนาและมีส่วนร่วม</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <!-- Project 1 -->
+                    <div class="bg-neutral-950 rounded-2xl overflow-hidden border border-red-900/20 group hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-brand-500/10 reveal">
+                        <div class="relative overflow-hidden aspect-video">
+                            <img src="https://cdn.phototourl.com/member/2026-10-08-d29a7b0a-53b8-45b7-83a8-cccb06f2a7c9.png">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                                <a href="#" class="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center hover:bg-brand-500 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 shadow-lg">
+                                    <i class="ph ph-link text-xl"></i>
+                                </a>
+                                <a href="#" class="w-12 h-12 rounded-full bg-neutral-900 text-white flex items-center justify-center hover:bg-neutral-800 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-150 border border-neutral-700">
+                                    <i class="ph ph-github-logo text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex gap-2 mb-4">
+                                <span class="text-xs font-semibold text-brand-400 bg-brand-500/10 px-2 py-1 rounded border border-brand-500/20">Cira Core</span>                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">ระบบแยกกระป๋องอัจฉริยะ</h3>
+                            <p class="text-neutral-400 text-sm mb-4 line-clamp-3">
+                                พัฒนาระบบแยกกระป๋องสำหรับการจัดการขยะโดยใช้ Cira Core เพื่อสั่งการในระบบคัดแยก และนำไปต่อยอดเป็นการกำจัดอย่างถูกต้อง
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="bg-neutral-950 rounded-2xl overflow-hidden border border-red-900/20 group hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-brand-500/10 reveal">
+                        <div class="relative overflow-hidden aspect-video">
+                            <img src="https://cdn.phototourl.com/member/2026-10-08-21942637-ba6b-4139-b1ab-8e6f200dde82.png">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                                <a href="#" class="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center hover:bg-brand-500 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 shadow-lg">
+                                    <i class="ph ph-link text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex gap-2 mb-4">
+                                <span class="text-xs font-semibold text-brand-400 bg-brand-500/10 px-2 py-1 rounded border border-brand-500/20">Capcut</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">Google Student Ambassador</h3>
+                            <p class="text-neutral-400 text-sm mb-4 line-clamp-3">
+                                ได้ทำคลิปวิดีโอเพื่อสมัครเข้าร่วม Google Student Ambassador รุ่นที่ 2 โดยได้ทำหัวข้อเกี่ยวกับ Youtube โดยในสุดท้ายก็ได้ถูกคัดเลือกให้ได้เป็น GSA รุ่นที่ 2 ในที่สุด
+                             </p>
+                        </div>
+                    </div>
+                       
+                
+           
+        </section>
+
+        <section id="contact" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">ช่องทางการ<span class="text-brand-500">ติดต่อ</span></h2>
+                    <div class="w-16 h-1 bg-brand-600 mx-auto rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                    <p class="text-neutral-400 mt-4 max-w-2xl mx-auto">สนใจร่วมงานกับผม หรือมีคำถามใดๆ สามารถติดต่อมาได้เลยครับ</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Contact Info -->
+                    <div class="reveal">
+                        <div class="bg-neutral-900/80 p-8 rounded-2xl border border-red-900/30 h-full relative overflow-hidden">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-brand-600/10 rounded-full blur-3xl"></div>
+                            
+                            <h3 class="text-2xl font-bold text-white mb-6">พูดคุยกันได้เลย</h3>
+                            <p class="text-neutral-400 mb-8">
+                                ผมเปิดรับโอกาสในการร่วมงานใหม่ๆ เสมอ ไม่ว่าจะเป็นโปรเจกต์งานฟรีแลนซ์ หรืองานประจำ หากคุณมีไอเดียดีๆ เรามาสร้างมันให้เป็นจริงกันเถอะ
+                            </p>
+                            
+                            <div class="space-y-6 relative z-10">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center shrink-0 border border-brand-500/20">
+                                        <i class="ph ph-envelope-simple text-2xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-medium text-neutral-400">อีเมล</h4>
+                                        <a href="mailto:itthikorn.suu@spumail.net" class="text-lg text-white hover:text-brand-400 transition-colors break-all">itthikorn.suu@spumail.net</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center shrink-0 border border-brand-500/20">
+                                        <i class="ph ph-phone text-2xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-medium text-neutral-400">โทรศัพท์</h4>
+                                        <a href="tel:0922494374" class="text-lg text-white hover:text-brand-400 transition-colors">092-249-4374</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center shrink-0 border border-brand-500/20">
+                                        <i class="ph ph-map-pin text-2xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-medium text-neutral-400">สถานที่</h4>
+                                        <p class="text-lg text-white">กรุงเทพมหานคร, ประเทศไทย</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="reveal">
+                        <form id="contactForm" class="bg-neutral-900/80 p-8 rounded-2xl border border-red-900/30">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-neutral-400 mb-2">ชื่อ - นามสกุล</label>
+                                    <input type="text" id="name" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="ชื่อของคุณ" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-neutral-400 mb-2">อีเมล</label>
+                                    <input type="email" id="email" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="email@example.com" required>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="subject" class="block text-sm font-medium text-neutral-400 mb-2">หัวข้อ</label>
+                                <input type="text" id="subject" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="เรื่องที่ต้องการติดต่อ" required>
+                            </div>
+                            <div class="mb-8">
+                                <label for="message" class="block text-sm font-medium text-neutral-400 mb-2">ข้อความ</label>
+                                <textarea id="message" rows="4" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors resize-none" placeholder="พิมพ์ข้อความของคุณที่นี่..." required></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-4 rounded-xl bg-brand-600 text-white font-bold text-lg hover:bg-brand-500 transition-colors shadow-[0_4px_20px_rgba(220,38,38,0.3)] flex items-center justify-center gap-2">
+                                ส่งข้อความ <i class="ph ph-paper-plane-tilt"></i>
+                            </button>
+                            <!-- Message Sent Notice -->
+                            <div id="formSuccess" class="hidden mt-4 p-3 bg-green-500/10 border border-green-500/30 text-green-400 rounded-lg text-center text-sm">
+                                ส่งข้อความสำเร็จ! ผมจะรีบติดต่อกลับไปครับ
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black py-8 border-t border-red-900/30 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-2xl font-bold tracking-tighter text-white">
+                Port<span class="text-brand-500">folio.</span>
+            </div>
+            <p class="text-neutral-500 text-sm text-center md:text-left">
+                &copy; <span id="year"></span> All Rights Reserved. Designed & Built by Itthikorn Suansri.
+            </p>
+            <div class="flex gap-4 text-neutral-400">
+                <a href="#" class="hover:text-white transition-colors"><i class="ph ph-github-logo text-xl"></i></a>
+                <a href="#" class="hover:text-brand-500 transition-colors"><i class="ph ph-linkedin-logo text-xl"></i></a>
+                <a href="#" class="hover:text-brand-500 transition-colors"><i class="ph ph-twitter-logo text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set Current Year in Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.replace('ph-x', 'ph-list');
+            } else {
+                icon.classList.replace('ph-list', 'ph-x');
+            }
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                icon.classList.replace('ph-x', 'ph-list');
+            });
+        });
+
+        // Navbar blur and shadow on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg', 'border-red-900/30');
+                navbar.classList.remove('border-red-500/15');
+            } else {
+                navbar.classList.remove('shadow-lg', 'border-red-900/30');
+                navbar.classList.add('border-red-500/15');
+            }
+        });
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // when to trigger
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+
+        // Form Submission Mockup
+        const form = document.getElementById('contactForm');
+        const successMsg = document.getElementById('formSuccess');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
+            
+            // Show loading state on button
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="ph ph-spinner animate-spin"></i> กำลังส่ง...';
+            submitBtn.disabled = true;
+
+            // Mocking API call with timeout
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                successMsg.classList.remove('hidden');
+                form.reset(); // Clear form
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    successMsg.classList.add('hidden');
+                }, 5000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
